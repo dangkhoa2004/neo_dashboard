@@ -119,7 +119,7 @@ boxShadow: {
 
 ## 🤝 Đóng góp
 
-Dự án được xây dựng bởi **NamNCN**. Mọi ý kiến đóng góp xin vui lòng tạo Issue hoặc Pull Request.
+Dự án được xây dựng bởi **DangKhoa**. Mọi ý kiến đóng góp xin vui lòng tạo Issue hoặc Pull Request.
 
 ## 📄 License
 
