@@ -1,21 +1,27 @@
 <template>
   <div>
-    <CouponStats
-      :total="coupons.length"
-      :active="activeCount"
-      :usage="totalUsage"
-    />
+    <div v-if="couponsStore.isLoading && couponsStore.coupons.length === 0" class="flex justify-center py-12">
+      
+    </div>
 
-    <CouponHeader @open-modal="showModal = true" />
+    <div v-else>
+      <CouponStats
+        :total="couponsStore.coupons.length"
+        :active="couponsStore.activeCount"
+        :usage="couponsStore.totalUsage"
+      />
 
-    <CouponToolbar v-model:search="searchQuery" v-model:status="filterStatus" />
+      <CouponHeader @open-modal="showModal = true" />
 
-    <CouponGrid :coupons="filteredCoupons" @copy="handleCopy" />
+      <CouponToolbar v-model:search="searchQuery" v-model:status="filterStatus" />
+
+      <CouponGrid :coupons="filteredCoupons" @copy="handleCopy" />
+    </div>
 
     <CouponModal
       :is-open="showModal"
       @close="showModal = false"
-      @save="handleSave"
+      @save="onSaveCoupon"
     />
 
     <div
@@ -29,9 +35,10 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
+import { useCouponsStore } from "@/store/modules/coupons";
 
-// Imports
+// Imports Components
 import {
   CouponStats,
   CouponHeader,
@@ -40,76 +47,24 @@ import {
   CouponModal,
 } from "../components/admin-components/coupons";
 
-// --- State ---
+// --- Store ---
+const couponsStore = useCouponsStore();
+
+// --- UI State ---
 const searchQuery = ref("");
 const filterStatus = ref("all");
 const showModal = ref(false);
 const toastMsg = ref(null);
 
-// --- Mock Data ---
-const coupons = ref([
-  {
-    code: "SUMMER2024",
-    type: "percent",
-    value: 20,
-    desc: "Giảm giá chào hè cho toàn bộ khóa học.",
-    expiry: "2024-08-30",
-    usage: 154,
-    limit: 500,
-    status: "expired",
-  },
-  {
-    code: "WELCOME10",
-    type: "fixed",
-    value: 50,
-    desc: "Voucher 50k cho thành viên mới đăng ký lần đầu.",
-    expiry: "",
-    usage: 1205,
-    limit: null,
-    status: "active",
-  },
-  {
-    code: "BLACKFRIDAY",
-    type: "percent",
-    value: 50,
-    desc: "Siêu sale Black Friday lớn nhất năm.",
-    expiry: "2024-11-25",
-    usage: 0,
-    limit: 100,
-    status: "scheduled",
-  },
-  {
-    code: "DangKhoa_VIP",
-    type: "percent",
-    value: 100,
-    desc: "Miễn phí trọn đời cho Admin.",
-    expiry: "2025-01-01",
-    usage: 1,
-    limit: 5,
-    status: "active",
-  },
-  {
-    code: "FLASH_SALE",
-    type: "percent",
-    value: 30,
-    desc: "Flash sale khung giờ vàng 12h-14h.",
-    expiry: "2025-12-31",
-    usage: 45,
-    limit: 100,
-    status: "active",
-  },
-]);
+// --- Lifecycle ---
+onMounted(() => {
+  couponsStore.fetchCoupons();
+});
 
 // --- Computed ---
-const activeCount = computed(
-  () => coupons.value.filter((c) => c.status === "active").length
-);
-const totalUsage = computed(() =>
-  coupons.value.reduce((sum, c) => sum + c.usage, 0)
-);
-
+// Filter logic vẫn giữ ở UI vì nó phụ thuộc vào input search của người dùng
 const filteredCoupons = computed(() => {
-  return coupons.value.filter((coupon) => {
+  return couponsStore.coupons.filter((coupon) => {
     const matchesSearch = coupon.code
       .toLowerCase()
       .includes(searchQuery.value.toLowerCase());
@@ -126,15 +81,14 @@ const handleCopy = (code) => {
   showToast(`Đã sao chép mã: ${code}`);
 };
 
-const handleSave = (couponData) => {
-  coupons.value.unshift({
-    ...couponData,
-    code: couponData.code.toUpperCase(),
-    usage: 0,
-    status: "active",
-  });
-  showModal.value = false;
-  showToast("Tạo mã giảm giá thành công!");
+const onSaveCoupon = async (couponData) => {
+  const success = await couponsStore.addCoupon(couponData);
+  if (success) {
+    showModal.value = false;
+    showToast("Tạo mã giảm giá thành công!");
+  } else {
+    showToast("Có lỗi xảy ra, vui lòng thử lại!");
+  }
 };
 
 const showToast = (msg) => {
@@ -147,7 +101,7 @@ const showToast = (msg) => {
 @keyframes bounce-in {
   0% {
     transform: scale(0.9);
-    ofpacity: 0;
+    opacity: 0; /* Đã sửa lỗi chính tả ofpacity */
   }
   50% {
     transform: scale(1.05);

@@ -1,45 +1,50 @@
 <template>
   <div>
-    <MemberStats :total="users.length" :vip="vipCount" :new-today="12" />
+    <div v-if="membersStore.isLoading && membersStore.users.length === 0" class="flex justify-center py-10">
+      
+    </div>
 
-    <MemberHeader @add="openModal()" @export="exportCSV" />
+    <div v-else>
+      <MemberStats 
+        :total="membersStore.users.length" 
+        :vip="membersStore.vipCount" 
+        :new-today="12" 
+      />
 
-    <MemberToolbar
-      v-model:status="filterStatus"
-      v-model:search="searchQuery"
-      v-model:role="filterRole"
-    />
+      <MemberHeader @add="openModal()" @export="exportCSV" />
 
-    <MemberTable
-      :users="paginatedUsers"
-      :total-pages="totalPages"
-      :current-page="currentPage"
-      :total-filtered="filteredUsers.length"
-      v-model:selected-ids="selectedUsers"
-      :is-all-selected="isAllSelected"
-      @edit="openModal"
-      @delete="deleteUser"
-      @toggle-all="toggleAll"
-      @page-change="currentPage = $event"
-      @bulk-delete="deleteSelected"
-      @clear-selection="selectedUsers = []"
-    />
+      <MemberToolbar
+        v-model:status="filterStatus"
+        v-model:search="searchQuery"
+        v-model:role="filterRole"
+      />
+
+      <MemberTable
+        :users="paginatedUsers"
+        :total-pages="totalPages"
+        :current-page="currentPage"
+        :total-filtered="filteredUsers.length"
+        v-model:selected-ids="selectedUsers"
+        :is-all-selected="isAllSelected"
+        @edit="openModal"
+        @delete="handleDeleteUser"
+        @toggle-all="toggleAll"
+        @page-change="currentPage = $event"
+        @bulk-delete="handleBulkDelete"
+        @clear-selection="selectedUsers = []"
+      />
+    </div>
 
     <MemberModal
       :show="showModal"
       :is-editing="isEditing"
       :form-data="form"
       @close="closeModal"
-      @save="handleSaveUser"
+      @save="onSaveUser"
     />
 
-    <div
-      v-if="toast.show"
-      class="fixed bottom-6 right-6 z-50 animate-bounce-in"
-    >
-      <div
-        class="bg-black text-white px-6 py-3 rounded border-2 border-white shadow-xl flex items-center gap-3"
-      >
+    <div v-if="toast.show" class="fixed bottom-6 right-6 z-50 animate-bounce-in">
+      <div class="bg-black text-white px-6 py-3 rounded border-2 border-white shadow-xl flex items-center gap-3">
         <i class="fa-solid fa-circle-check text-neo-green"></i>
         <span class="font-bold">{{ toast.message }}</span>
       </div>
@@ -48,7 +53,8 @@
 </template>
 
 <script setup>
-import { ref, computed, reactive } from "vue";
+import { ref, computed, reactive, onMounted } from "vue";
+import { useMembersStore } from "../store/modules/members";
 
 // Import Components
 import {
@@ -59,71 +65,10 @@ import {
   MemberModal
 } from "../components/admin-components/members";
 
-// --- Mock Data ---
-const users = ref([
-  {
-    id: 1,
-    name: "Nguyễn Văn A",
-    email: "anv@example.com",
-    plan: "Enterprise",
-    role: "Admin",
-    active: true,
-    joinDate: "12/01/2024",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=A",
-  },
-  {
-    id: 2,
-    name: "Trần Thị B",
-    email: "btt@example.com",
-    plan: "Basic",
-    role: "User",
-    active: true,
-    joinDate: "15/02/2024",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=B",
-  },
-  {
-    id: 3,
-    name: "Lê Văn C",
-    email: "cle@example.com",
-    plan: "Free",
-    role: "User",
-    active: false,
-    joinDate: "20/02/2024",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=C",
-  },
-  {
-    id: 4,
-    name: "Phạm D",
-    email: "dpham@example.com",
-    plan: "Pro",
-    role: "Editor",
-    active: true,
-    joinDate: "22/02/2024",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=D",
-  },
-  {
-    id: 5,
-    name: "Hoàng E",
-    email: "ehoang@example.com",
-    plan: "Pro",
-    role: "User",
-    active: true,
-    joinDate: "25/02/2024",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=E",
-  },
-  {
-    id: 6,
-    name: "Vũ F",
-    email: "fvu@example.com",
-    plan: "Free",
-    role: "User",
-    active: true,
-    joinDate: "01/03/2024",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=F",
-  },
-]);
+// --- Store ---
+const membersStore = useMembersStore();
 
-// --- State ---
+// --- Local State (UI logic) ---
 const searchQuery = ref("");
 const filterStatus = ref("All");
 const filterRole = ref("All");
@@ -143,15 +88,16 @@ const form = ref({
 });
 const toast = reactive({ show: false, message: "" });
 
-// --- Computed ---
-const vipCount = computed(
-  () =>
-    users.value.filter((u) => u.plan === "Pro" || u.plan === "Enterprise")
-      .length
-);
+// --- Lifecycle ---
+onMounted(() => {
+  membersStore.fetchMembers();
+});
 
+// --- Computed Logic (Client-side filtering) ---
+// Note: Logic lọc vẫn giữ ở Component vì đây là lọc phía client (UI filtering)
+// Store chỉ giữ raw data.
 const filteredUsers = computed(() => {
-  return users.value.filter((user) => {
+  return membersStore.users.filter((user) => {
     const matchesSearch =
       user.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
       user.email.toLowerCase().includes(searchQuery.value.toLowerCase());
@@ -215,49 +161,45 @@ const closeModal = () => {
   showModal.value = false;
 };
 
-const handleSaveUser = (formData) => {
-  if (!formData.name || !formData.email)
-    return alert("Vui lòng nhập tên và email");
+// Gọi Action từ Store
+const onSaveUser = async (formData) => {
+  if (!formData.name || !formData.email) return alert("Vui lòng nhập tên và email");
 
+  let success = false;
   if (isEditing.value) {
-    const index = users.value.findIndex((u) => u.id === formData.id);
-    if (index !== -1) {
-      users.value[index] = { ...users.value[index], ...formData };
-      showToast("Đã cập nhật thông tin thành viên!");
-    }
+    success = await membersStore.updateMember(formData);
+    if (success) showToast("Đã cập nhật thông tin thành viên!");
   } else {
-    const newUser = {
-      ...formData,
-      id: Date.now(),
-      joinDate: new Date().toLocaleDateString("vi-VN"),
-      avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${formData.name}`,
-    };
-    users.value.unshift(newUser);
-    showToast("Đã thêm thành viên mới!");
+    success = await membersStore.addMember(formData);
+    if (success) showToast("Đã thêm thành viên mới!");
   }
-  closeModal();
+  
+  if (success) closeModal();
 };
 
-const deleteUser = (id) => {
+const handleDeleteUser = async (id) => {
   if (confirm("Bạn có chắc chắn muốn xóa thành viên này?")) {
-    users.value = users.value.filter((u) => u.id !== id);
-    selectedUsers.value = selectedUsers.value.filter((uid) => uid !== id);
-    showToast("Đã xóa thành viên!");
+    const success = await membersStore.deleteMember(id);
+    if (success) {
+      selectedUsers.value = selectedUsers.value.filter((uid) => uid !== id);
+      showToast("Đã xóa thành viên!");
+    }
   }
 };
 
-const deleteSelected = () => {
+const handleBulkDelete = async () => {
   if (confirm(`Xóa ${selectedUsers.value.length} thành viên đã chọn?`)) {
-    users.value = users.value.filter(
-      (u) => !selectedUsers.value.includes(u.id)
-    );
-    selectedUsers.value = [];
-    showToast("Đã xóa các thành viên đã chọn!");
+    const success = await membersStore.deleteSelectedMembers([...selectedUsers.value]); // copy array
+    if (success) {
+      selectedUsers.value = [];
+      showToast("Đã xóa các thành viên đã chọn!");
+    }
   }
 };
 
 const exportCSV = () => {
   showToast("Đang xuất file CSV...");
+  // Logic export có thể cài đặt sau
 };
 
 const showToast = (msg) => {
@@ -269,17 +211,9 @@ const showToast = (msg) => {
 
 <style scoped>
 @keyframes bounce-in {
-  0% {
-    transform: scale(0.9);
-    opacity: 0;
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
+  0% { transform: scale(0.9); opacity: 0; }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
 }
 .animate-bounce-in {
   animation: bounce-in 0.3s ease-out;

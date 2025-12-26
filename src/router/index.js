@@ -1,12 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import DefaultLayout from '../components/admin-components/layouts/DefaultLayout.vue';
-
-// Import các view
-import Dashboard from '../views/Dashboard.vue';
-import Members from '../views/Members.vue';
-import Packages from '../views/Packages.vue';
-import Coupons from '../views/Coupons.vue';
-import Settings from '../views/Settings.vue';
+import { useUIStore } from '@/store/ui';
+import DefaultLayout from '@/components/admin-components/layouts/DefaultLayout.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -16,38 +10,60 @@ const router = createRouter({
       component: DefaultLayout,
       children: [
         { 
-          path: '', // Để trống -> Khi vào /quan-tri sẽ load Dashboard
+          path: '', 
           name: 'Dashboard', 
-          component: Dashboard 
+          component: () => import('@/views/Dashboard.vue'),
+          meta: { title: 'Tổng quan' } 
         },
         { 
-          path: 'members', // URL sẽ là: /quan-tri/members
+          path: 'members', 
           name: 'Members', 
-          component: Members 
+          component: () => import('@/views/Members.vue'),
+          meta: { title: 'Quản lý thành viên' }
         },
         { 
-          path: 'packages', // URL sẽ là: /quan-tri/packages
+          path: 'packages', 
           name: 'Packages', 
-          component: Packages 
+          component: () => import('@/views/Packages.vue'),
+          meta: { title: 'Gói dịch vụ' }
         },
         { 
-          path: 'coupons', // URL sẽ là: /quan-tri/coupons
+          path: 'coupons', 
           name: 'Coupons', 
-          component: Coupons 
+          component: () => import('@/views/Coupons.vue'),
+          meta: { title: 'Mã giảm giá' }
         },
         { 
-          path: 'settings', // URL sẽ là: /quan-tri/settings
+          path: 'settings', 
           name: 'Settings', 
-          component: Settings 
+          component: () => import('@/views/Settings.vue'),
+          meta: { title: 'Cài đặt' }
         },
       ]
     },
-    // (Tùy chọn) Chuyển hướng trang chủ về trang quản trị
     {
       path: '/',
       redirect: '/quan-tri'
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      redirect: '/quan-tri'
     }
   ]
+});
+
+router.beforeEach((to, from, next) => {
+  const uiStore = useUIStore();
+  uiStore.startLoading('Chờ một xíu he...');
+  document.title = to.meta.title ? `${to.meta.title} - Admin` : 'Admin Dashboard';
+  next();
+});
+
+router.afterEach(() => {
+  const uiStore = useUIStore();
+  setTimeout(() => {
+    uiStore.stopLoading();
+  }, 800);
 });
 
 export default router;

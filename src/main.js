@@ -1,9 +1,11 @@
-import { createApp } from 'vue'
-import './style.css' // CSS của Tailwind
-import App from './App.vue'
-import router from './router' // Router bạn đã tạo ở câu trả lời trước
+import { createApp } from "vue";
+import "./style.css";
+import App from "./App.vue";
+import router from "./router";
+import { createPinia } from "pinia";
 
-const app = createApp(App)
+const app = createApp(App);
 
-app.use(router)
-app.mount('#app')
+app.use(router);
+app.use(createPinia());
+app.mount("#app");

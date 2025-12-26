@@ -4,7 +4,7 @@
       <h1 class="text-4xl font-black mb-1 flex items-center gap-2">
         <span class="relative">
           <i class="fa-solid fa-tags text-3xl z-10 relative"></i>
-          <span class="absolute -bottom-1 -right-1 w-full h-2 bg-neo-green z-0"></span>
+          <span class="absolute -bottom-1 -right-1 w-full h-2 z-0"></span>
         </span>
         Mã Giảm Giá
       </h1>
