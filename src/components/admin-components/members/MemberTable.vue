@@ -155,7 +155,7 @@
           v-for="page in totalPages"
           :key="page"
           @click="$emit('page-change', page)"
-          class="w-8 h-8 border-2 border-black rounded font-bold flex items-center justify-center transition-colors"
+          class="w-10 h-10 border-2 border-black font-4 rounded font-bold flex items-center justify-center transition-colors"
           :class="
             currentPage === page
               ? 'bg-black text-white'
@@ -167,7 +167,7 @@
         <button
           @click="$emit('page-change', currentPage + 1)"
           :disabled="currentPage === totalPages"
-          class="px-3 py-1 border-2 border-black rounded font-bold bg-white hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+          class="w-10 h-10 border-2 border-black rounded font-bold bg-white hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <i class="fa-solid fa-chevron-right"></i>
         </button>
