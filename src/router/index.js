@@ -63,7 +63,7 @@ router.afterEach(() => {
   const uiStore = useUIStore();
   setTimeout(() => {
     uiStore.stopLoading();
-  }, 1000);
+  }, 200);
 });
 
 export default router;

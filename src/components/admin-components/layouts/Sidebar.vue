@@ -16,7 +16,7 @@
       </button>
     </div>
 
-    <ul class="space-y-4 font-semibold px-2 flex-1 overflow-y-auto">
+    <ul class="space-y-4 font-semibold pr-4 flex-1 overflow-y-auto">
       <li v-for="(item, index) in menuItems" :key="index">
         <router-link 
            :to="item.link" 
@@ -40,7 +40,6 @@
 <script setup>
 import { useRoute } from 'vue-router';
 
-// Nhận props để biết có phải đang render dạng mobile popup không
 const props = defineProps({
   isMobile: {
     type: Boolean,
@@ -66,7 +65,6 @@ const isActive = (path) => {
   return route.path.startsWith(path);
 };
 
-// Khi click vào menu trên mobile thì đóng sidebar lại
 const handleItemClick = () => {
   if (props.isMobile) {
     emit('close-sidebar');

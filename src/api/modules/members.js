@@ -2,12 +2,66 @@ import { request } from "@/utils/apiClient";
 
 // Mock Data ban đầu
 let users = [
-  { id: 1, name: "Nguyễn Văn A", email: "anv@example.com", plan: "Enterprise", role: "Admin", active: true, joinDate: "12/01/2024", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=A" },
-  { id: 2, name: "Trần Thị B", email: "btt@example.com", plan: "Basic", role: "User", active: true, joinDate: "15/02/2024", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=B" },
-  { id: 3, name: "Lê Văn C", email: "cle@example.com", plan: "Free", role: "User", active: false, joinDate: "20/02/2024", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=C" },
-  { id: 4, name: "Phạm D", email: "dpham@example.com", plan: "Pro", role: "Editor", active: true, joinDate: "22/02/2024", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=D" },
-  { id: 5, name: "Hoàng E", email: "ehoang@example.com", plan: "Pro", role: "User", active: true, joinDate: "25/02/2024", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=E" },
-  { id: 6, name: "Vũ F", email: "fvu@example.com", plan: "Free", role: "User", active: true, joinDate: "01/03/2024", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=F" },
+  {
+    id: 1,
+    name: "Nguyễn Văn A",
+    email: "anv@example.com",
+    plan: "Enterprise",
+    role: "Admin",
+    active: true,
+    joinDate: "12/01/2024",
+    avatar: "/author.avif",
+  },
+  {
+    id: 2,
+    name: "Trần Thị B",
+    email: "btt@example.com",
+    plan: "Basic",
+    role: "User",
+    active: true,
+    joinDate: "15/02/2024",
+    avatar: "/author.avif",
+  },
+  {
+    id: 3,
+    name: "Lê Văn C",
+    email: "cle@example.com",
+    plan: "Free",
+    role: "User",
+    active: false,
+    joinDate: "20/02/2024",
+    avatar: "/author.avif",
+  },
+  {
+    id: 4,
+    name: "Phạm D",
+    email: "dpham@example.com",
+    plan: "Pro",
+    role: "Editor",
+    active: true,
+    joinDate: "22/02/2024",
+    avatar: "/author.avif",
+  },
+  {
+    id: 5,
+    name: "Hoàng E",
+    email: "ehoang@example.com",
+    plan: "Pro",
+    role: "User",
+    active: true,
+    joinDate: "25/02/2024",
+    avatar: "/author.avif",
+  },
+  {
+    id: 6,
+    name: "Vũ F",
+    email: "fvu@example.com",
+    plan: "Free",
+    role: "User",
+    active: true,
+    joinDate: "01/03/2024",
+    avatar: "/author.avif",
+  },
 ];
 
 export default {
@@ -20,7 +74,7 @@ export default {
       ...member,
       id: Date.now(),
       joinDate: new Date().toLocaleDateString("vi-VN"),
-      avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${member.name}`,
+      avatar: `/author.avif`,
     };
     users.unshift(newUser); // Cập nhật mock data
     return request(newUser); // Trả về kết quả qua wrapper

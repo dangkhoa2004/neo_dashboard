@@ -4,7 +4,7 @@ import { request } from "@/utils/apiClient";
 let profile = {
   name: "Admin User",
   title: "Senior Administrator",
-  avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix",
+  avatar: "/author.avif",
   bio: "Quản trị viên hệ thống. Thích code dạo và uống cà phê.",
 };
 

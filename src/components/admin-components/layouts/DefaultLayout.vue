@@ -14,7 +14,7 @@
       ></div>
 
       <div 
-        class="fixed inset-y-0 left-0 z-50 w-72 bg-neo-bg border-r-2 border-black transform transition-transform duration-300 ease-in-out lg:hidden"
+        class="fixed inset-y-0 left-0 z-50 w-72 bg-neo-bg border-r-1 border-black transform transition-transform duration-300 ease-in-out lg:hidden"
         :class="isSidebarOpen ? 'translate-x-0' : '-translate-x-full'"
       >
         <div class="h-full p-6">
@@ -37,7 +37,5 @@
 import { ref } from 'vue';
 import Header from './Header.vue';
 import Sidebar from './Sidebar.vue';
-
-// State quản lý đóng mở menu trên mobile
 const isSidebarOpen = ref(false);
 </script>
