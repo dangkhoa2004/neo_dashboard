@@ -12,31 +12,31 @@ const router = createRouter({
         { 
           path: '', 
           name: 'Dashboard', 
-          component: () => import('@/views/Dashboard.vue'),
+          component: () => import('@/views/admin-portal/Dashboard.vue'),
           meta: { title: 'Tổng quan' } 
         },
         { 
           path: 'members', 
           name: 'Members', 
-          component: () => import('@/views/Members.vue'),
+          component: () => import('@/views/admin-portal/Members.vue'),
           meta: { title: 'Quản lý thành viên' }
         },
         { 
           path: 'packages', 
           name: 'Packages', 
-          component: () => import('@/views/Packages.vue'),
+          component: () => import('@/views/admin-portal/Packages.vue'),
           meta: { title: 'Gói dịch vụ' }
         },
         { 
           path: 'coupons', 
           name: 'Coupons', 
-          component: () => import('@/views/Coupons.vue'),
+          component: () => import('@/views/admin-portal/Coupons.vue'),
           meta: { title: 'Mã giảm giá' }
         },
         { 
           path: 'settings', 
           name: 'Settings', 
-          component: () => import('@/views/Settings.vue'),
+          component: () => import('@/views/admin-portal/Settings.vue'),
           meta: { title: 'Cài đặt' }
         },
       ]

@@ -23,7 +23,7 @@
                     <td class="p-4">
                         <div class="flex items-center gap-2">
                             <div class="w-8 h-8 rounded-full border-2 border-black bg-gray-200 overflow-hidden">
-                                <img :src="`https://api.dicebear.com/7.x/avataaars/svg?seed=${order.customer}`" alt="avatar">
+                                <img :src="`/author.avif`" alt="avatar" class="w-full h-full object-cover">
                             </div>
                             {{ order.customer }}
                         </div>

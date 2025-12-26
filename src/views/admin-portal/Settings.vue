@@ -67,7 +67,7 @@ import {
   SecuritySettings,
   ApiSettings,
   DangerZone,
-} from "../components/admin-components/settings";
+} from "../../components/admin-components/settings";
 
 // --- Store ---
 const settingsStore = useSettingsStore();

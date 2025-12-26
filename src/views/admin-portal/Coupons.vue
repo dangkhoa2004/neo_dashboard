@@ -45,7 +45,7 @@ import {
   CouponToolbar,
   CouponGrid,
   CouponModal,
-} from "../components/admin-components/coupons";
+} from "../../components/admin-components/coupons";
 
 // --- Store ---
 const couponsStore = useCouponsStore();

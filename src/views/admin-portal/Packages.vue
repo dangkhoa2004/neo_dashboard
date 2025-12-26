@@ -48,7 +48,7 @@ import {
   ComparisonTable,
   PackageFAQ,
   PlanModal,
-} from "../components/admin-components/packages";
+} from "../../components/admin-components/packages";
 
 // --- Store ---
 const packagesStore = usePackagesStore();

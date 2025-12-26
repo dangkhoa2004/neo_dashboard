@@ -54,7 +54,7 @@
 
 <script setup>
 import { ref, computed, reactive, onMounted } from "vue";
-import { useMembersStore } from "../store/modules/members";
+import { useMembersStore } from "../../store/modules/members";
 
 // Import Components
 import {
@@ -63,7 +63,7 @@ import {
   MemberToolbar,
   MemberTable,
   MemberModal
-} from "../components/admin-components/members";
+} from "../../components/admin-components/members";
 
 // --- Store ---
 const membersStore = useMembersStore();
