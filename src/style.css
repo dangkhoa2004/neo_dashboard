@@ -1,72 +1,50 @@
-/* 1. Đưa @import lên dòng đầu tiên */
 @import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap');
 
-/* 2. Sau đó mới đến các chỉ thị của Tailwind */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* 3. Cuối cùng là CSS tùy chỉnh của bạn */
 body {
     font-family: 'Public Sans', sans-serif;
     background-color: #F7F5F0;
-    /* neo-bg */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
 }
 
-/* --- Custom Scrollbar Neo-Brutalism --- */
-
-/* 1. Kích thước thanh cuộn */
 ::-webkit-scrollbar {
     width: 14px;
-    /* Độ rộng cho thanh dọc */
     height: 14px;
-    /* Độ cao cho thanh ngang */
 }
 
-/* 2. Phần nền (Track) */
 ::-webkit-scrollbar-track {
     background-color: #F7F5F0;
-    /* Màu nền kem */
     border-left: 2px solid black;
-    /* Viền ngăn cách với nội dung */
     border-top: 2px solid black;
-    /* Viền ngăn cách cho thanh ngang */
 }
 
-/* 3. Phần thanh kéo (Thumb) */
 ::-webkit-scrollbar-thumb {
     background-color: black;
-    /* Màu mặc định là Đen */
     border: 2px solid #F7F5F0;
-    /* Tạo khoảng hở giả bằng border trùng màu nền */
-    /* Hoặc bỏ border đi nếu muốn đen đặc: border: none; */
 }
 
-/* 4. Hiệu ứng khi di chuột vào thanh kéo */
 ::-webkit-scrollbar-thumb:hover {
     background-color: #22c55e;
-    /* Chuyển sang màu Xanh Neo khi hover */
     border-color: black;
-    /* Đổi viền thành đen để nổi bật */
 }
 
-/* --- Hỗ trợ Firefox (Ít tùy biến hơn) --- */
 * {
     scrollbar-width: auto;
     scrollbar-color: black #F7F5F0;
 }
 
-/* ... Code cũ giữ nguyên ... */
-
-/* Ẩn thanh cuộn nhưng vẫn cho phép cuộn */
 .no-scrollbar::-webkit-scrollbar {
     display: none;
-    /* Chrome, Safari, Opera */
 }
 
 .no-scrollbar {
     -ms-overflow-style: none;
-    /* IE and Edge */
     scrollbar-width: none;
-    /* Firefox */
 }
