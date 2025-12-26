@@ -27,25 +27,54 @@ Một giao diện quản trị (Admin Dashboard) hiện đại, đậm chất c�
 
 ```text
 src/
-├── assets/            # Tài nguyên tĩnh (ảnh, css global)
-├── components/        # Các thành phần tái sử dụng
-│   ├── NeoCard.vue    # Component khung viền đen + bóng cứng
-│   ├── Header.vue     # Thanh điều hướng trên cùng
-│   └── Sidebar.vue    # Thanh menu bên trái (có active state)
-├── layouts/           # Bố cục trang
-│   └── DefaultLayout.vue # Layout chính (Sidebar + Header + RouterView)
-├── views/             # Các trang màn hình
-│   ├── Dashboard.vue  # Trang tổng quan
-│   ├── Members.vue    # Quản lý thành viên
-│   ├── Packages.vue   # Quản lý gói cước
-│   ├── Coupons.vue    # Quản lý mã giảm giá
-│   └── Settings.vue   # Cài đặt hệ thống
-├── router/            # Cấu hình đường dẫn (Routing)
+├── api/                          # Xử lý gọi API (Axios/Fetch)
+│   ├── modules/                  # API riêng cho từng tính năng
+│   │   ├── auth.js               # Bổ sung: Login/Register/Logout
+│   │   ├── coupons.js
+│   │   ├── ...
+│   ├── index.js                  # Export chung
+│   └── apiClient.js              # Cấu hình Axios instance
+│
+├── assets/                       # Tài nguyên tĩnh
+│   ├── images/
+│   ├── icons/                    # vue.svg, logo...
+│   └── styles/
+│
+├── components/                   # Các thành phần giao diện (UI)
+│   ├── common/...                # Component dùng chung cho TOÀN BỘ 
+│   ├── admin/...                 # Components chỉ dành cho Admin
+│   └── customer/...              # Components dành cho phía Khách hàng
+│
+├── composables/                  # Vue Composables (Logic tái sử dụng)
+│   ├── useAuth.js                # Bổ sung: Logic đăng nhập/user
+│   ├── useLoader.js              # Logic loading state
+│   ├── useNotification.js        # Bổ sung: Toast message
+│   └── useTheme.js               # Bổ sung: Dark/Light mode
+│
+├── router/                       # Cấu hình định tuyến
+│   ├── index.js                  # Main router config
+│   └── routes.js                 # Tách danh sách routes ra cho gọn
+│
+├── store/                        # Quản lý State (Pinia/Vuex)
+│   ├── modules/...
 │   └── index.js
-├── App.vue            # Component gốc
-├── main.js            # Entry point
-└── style.css          # CSS Global & Custom Scrollbar
-
+│
+├── utils/                        # Các hàm tiện ích thuần JS
+│   ├── constants.js              # Hằng số (API_URL, Roles...)
+│   ├── ...
+│
+├── views/                        # Các trang màn hình (Pages)
+│   ├── Login.vue                 # Bổ sung: Trang đăng nhập
+│   ├── Dashboard.vue
+│   ├── Members.vue
+│   ├── Packages.vue
+│   ├── Coupons.vue
+│   ├── Settings.vue
+│   └── NotFound.vue              # Bổ sung: Trang 404
+│
+├── App.vue                       # Component gốc
+├── main.js                       # Entry point
+└── style.css                     # Global CSS (Tailwind imports etc.)
 ```
 
 ## 🚀 Cài đặt và Sử dụng

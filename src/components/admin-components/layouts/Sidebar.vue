@@ -1,17 +1,28 @@
 <template>
-  <aside class="w-64 shrink-0 flex flex-col">
-    <div class="mb-8">
-      <h2 class="font-bold text-xl">Admin Portal</h2>
-      <p class="text-sm text-gray-500">Quản lý hệ thống</p>
+  <aside class="w-64 shrink-0 flex flex-col h-full bg-neo-bg lg:bg-transparent">
+    
+    <div class="mb-8 flex justify-between items-start">
+      <div>
+        <h2 class="font-bold text-xl">Admin Portal</h2>
+        <p class="text-sm text-gray-500">Quản lý hệ thống</p>
+      </div>
+      
+      <button 
+        v-if="isMobile" 
+        @click="$emit('close-sidebar')"
+        class="lg:hidden border-2 border-black w-8 h-8 flex items-center justify-center rounded bg-white shadow-neo-sm active:shadow-none active:translate-x-[2px] active:translate-y-[2px]"
+      >
+        <i class="fa-solid fa-xmark"></i>
+      </button>
     </div>
 
-    <ul class="space-y-4 font-semibold flex-1">
+    <ul class="space-y-4 font-semibold px-2 flex-1 overflow-y-auto">
       <li v-for="(item, index) in menuItems" :key="index">
         <router-link 
            :to="item.link" 
+           @click="handleItemClick"
            :class="[
              'flex items-center gap-3 px-4 py-3 transition-transform',
-             // Logic Active: Nếu isActive trả về true thì hiển thị style Neo-Brutalism
              isActive(item.link) 
                ? 'bg-white border-2 border-black rounded-xl shadow-neo' 
                : 'hover:translate-x-1'
@@ -29,10 +40,17 @@
 <script setup>
 import { useRoute } from 'vue-router';
 
-// Lấy thông tin route hiện tại để so sánh
+// Nhận props để biết có phải đang render dạng mobile popup không
+const props = defineProps({
+  isMobile: {
+    type: Boolean,
+    default: false
+  }
+});
+
+const emit = defineEmits(['close-sidebar']);
 const route = useRoute();
 
-// Danh sách menu với đường dẫn chuẩn
 const menuItems = [
   { name: 'Tổng Quan', icon: 'fa-solid fa-table-columns', link: '/quan-tri' },
   { name: 'Thành Viên', icon: 'fa-solid fa-users', link: '/quan-tri/members' },
@@ -41,14 +59,17 @@ const menuItems = [
   { name: 'Cài Đặt', icon: 'fa-solid fa-gear', link: '/quan-tri/settings' },
 ];
 
-// Hàm kiểm tra xem mục menu có đang được chọn hay không
 const isActive = (path) => {
-  // Trường hợp đặc biệt: Trang Dashboard (Trang chủ của admin)
   if (path === '/quan-tri') {
     return route.path === '/quan-tri';
   }
-  // Các trang con: Chỉ cần URL bắt đầu bằng path của menu là được active
-  // Ví dụ: Đang ở /quan-tri/members/edit vẫn sáng đèn menu 'Thành Viên'
   return route.path.startsWith(path);
+};
+
+// Khi click vào menu trên mobile thì đóng sidebar lại
+const handleItemClick = () => {
+  if (props.isMobile) {
+    emit('close-sidebar');
+  }
 };
 </script>
