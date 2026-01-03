@@ -1,18 +1,28 @@
-import { fileURLToPath, URL } from 'node:url' // 1. Thêm dòng này để xử lý đường dẫn
+import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      // 2. Cấu hình alias '@' trỏ về thư mục './src'
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
   server: {
-    host: '0.0.0.0', // QUAN TRỌNG: Cho phép truy cập từ IP công khai
-    port: 5173,      // Cố định cổng 5173
+    host: '0.0.0.0',
+    port: 5173,
+  },
+  // --- ADD THIS SECTION BELOW ---
+  build: {
+    sourcemap: false,       // Disabling this saves a massive amount of RAM
+    cssCodeSplit: true,    // Split CSS to keep individual file processing small
+    chunkSizeWarningLimit: 1000,
+    rollupOptions: {
+      maxParallelFileOps: 2, // Force Vite to process fewer files at once to save memory
+      output: {
+        manualChunks: undefined, // Let Vite handle chunks normally
+      }
+    }
   }
 })
