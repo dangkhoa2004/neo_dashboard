@@ -1,69 +1,45 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import { useUIStore } from '@/store/ui';
-import DefaultLayout from '@/components/admin-components/layouts/DefaultLayout.vue';
+import { createRouter, createWebHistory } from "vue-router";
+
+// 1. Import Modules Routes
+import adminRoutes from "./modules/admin-routes";
+import customerRoutes from "./modules/customer-routes";
+import authRoutes from "./modules/auth-routes";
+
+// 2. Import Config Nâng cao
+import { setupRouterGuards, scrollBehavior } from "./config-routes";
 
 const router = createRouter({
   history: createWebHistory(),
+  // Sử dụng cấu hình scroll từ file config
+  scrollBehavior, 
   routes: [
+    // --- Các Route Cấp Cao ---
     {
-      path: '/quan-tri',
-      component: DefaultLayout,
-      children: [
-        { 
-          path: '', 
-          name: 'Dashboard', 
-          component: () => import('@/views/admin-portal/Dashboard.vue'),
-          meta: { title: 'Tổng quan' } 
-        },
-        { 
-          path: 'members', 
-          name: 'Members', 
-          component: () => import('@/views/admin-portal/Members.vue'),
-          meta: { title: 'Quản lý thành viên' }
-        },
-        { 
-          path: 'packages', 
-          name: 'Packages', 
-          component: () => import('@/views/admin-portal/Packages.vue'),
-          meta: { title: 'Gói dịch vụ' }
-        },
-        { 
-          path: 'coupons', 
-          name: 'Coupons', 
-          component: () => import('@/views/admin-portal/Coupons.vue'),
-          meta: { title: 'Mã giảm giá' }
-        },
-        { 
-          path: 'settings', 
-          name: 'Settings', 
-          component: () => import('@/views/admin-portal/Settings.vue'),
-          meta: { title: 'Cài đặt' }
-        },
-      ]
+      path: "/trang-chu",
+      name: "TrangChu",
+      component: () => import("@/views/customer-perform/HomePage.vue"),
+      meta: { title: "Trang chủ" },
     },
     {
-      path: '/',
-      redirect: '/quan-tri'
+      path: "/",
+      redirect: "/trang-chu",
     },
+
+    // --- Gộp các Module ---
+    ...authRoutes,
+    ...customerRoutes,
+    ...adminRoutes,
+
+    // --- Catch-all 404 ---
     {
-      path: '/:pathMatch(.*)*',
-      redirect: '/quan-tri'
-    }
-  ]
+      path: "/:pathMatch(.*)*",
+      component: () => import("@/components/common/NeoNotFound.vue"),
+      meta: { title: "Not Found | 404" },
+    },
+  ],
 });
 
-router.beforeEach((to, from, next) => {
-  const uiStore = useUIStore();
-  uiStore.startLoading('Chờ một xíu he...');
-  document.title = to.meta.title ? `${to.meta.title} - Admin` : 'Admin Dashboard';
-  next();
-});
-
-router.afterEach(() => {
-  const uiStore = useUIStore();
-  setTimeout(() => {
-    uiStore.stopLoading();
-  }, 200);
-});
+// 3. Kích hoạt các Guards (Logic Auth, Loading, Title...)
+setupRouterGuards(router);
 
 export default router;

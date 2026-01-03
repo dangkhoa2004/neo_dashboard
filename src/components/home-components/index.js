@@ -1,0 +1,10 @@
+export { default as HomeMarquee } from './HomeMarquee.vue';
+export { default as HomeNavbar } from './HomeNavbar.vue';
+export { default as HomeHero } from './HomeHero.vue';
+export { default as HomeTrustedBy } from './HomeTrustedBy.vue';
+export { default as HomeFeatures } from './HomeFeatures.vue';
+export { default as HomeCourses } from './HomeCourses.vue';
+export { default as HomePricing } from './HomePricing.vue';
+export { default as HomeFaq } from './HomeFaq.vue';
+export { default as HomeFooter } from './HomeFooter.vue';
+export { default as HomeCart } from './HomeCart.vue';
