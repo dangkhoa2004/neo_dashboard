@@ -2,7 +2,11 @@
 
 Một giao diện quản trị (Admin Dashboard) hiện đại, đậm chất cá tính với phong cách thiết kế **Soft Neo-Brutalism** (Tân Thô Mộc). Dự án được xây dựng trên nền tảng **Vue 3** (Vite) và **Tailwind CSS**.
 
-![Project Preview](./public/preview.png)
+## 🚀 Xem trước Trang chủ
+![Project Preview](./public/main-preview.png)
+
+## 🚀 Xem trước Bảng điều khiển
+![Project Preview](./public/dashboard-preview.png)
 
 ## ✨ Đặc điểm nổi bật
 
