@@ -42,7 +42,11 @@
         <div v-for="(course, index) in courses" :key="course.id" class="reveal-on-scroll slide-up" :style="{ transitionDelay: `${index * 50}ms` }">
             <div class="group flex flex-col h-full overflow-hidden rounded-xl border-2 border-black bg-white shadow-[6px_6px_0px_0px_#000] transition-all duration-300 hover:-translate-y-2 hover:shadow-[12px_12px_0px_0px_#000]">
                 <div class="relative h-56 overflow-hidden border-b-2 border-black bg-gray-200">
-                    <img :src="getImageUrl(course.image)" class="h-full w-full object-cover grayscale transition-all duration-500 group-hover:scale-110 group-hover:grayscale-0" />
+                    <img 
+                      :src="getImageUrl(course.image)" 
+                      :alt="'Hình ảnh khóa học ' + course.title"
+                      class="h-full w-full object-cover grayscale transition-all duration-500 group-hover:scale-110 group-hover:grayscale-0" 
+                    />
                     <div :class="`absolute right-2 top-2 rounded border border-black px-2 py-1 text-xs font-bold shadow-sm ${course.color || 'bg-white'}`">{{ course.tag }}</div>
                     <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         <button class="bg-white text-black font-bold px-6 py-2 border-2 border-black shadow-[4px_4px_0px_0px_#000] hover:scale-105 transition-transform">XEM NGAY</button>
@@ -53,8 +57,12 @@
                     <p class="mb-4 text-sm font-bold text-gray-500">{{ course.instructor }}</p>
                     <div class="mt-auto flex items-center justify-between border-t-2 border-dashed border-gray-300 pt-4">
                         <span class="text-xl font-black text-[#00C16A]">{{ formatCurrency(course.price) }}đ</span>
-                        <button @click.stop="$emit('add-to-cart', course)" class="rounded-full border-2 border-black bg-black p-2 text-white transition-all hover:bg-[#00C16A] hover:text-black hover:rotate-90">
-                            <Plus class="h-5 w-5" />
+                        <button 
+                          @click.stop="$emit('add-to-cart', course)" 
+                          class="rounded-full border-2 border-black bg-black p-2 text-white transition-all hover:bg-[#00C16A] hover:text-black hover:rotate-90"
+                          aria-label="Thêm khóa học vào giỏ hàng"
+                        >
+                          <Plus class="h-5 w-5" />
                         </button>
                     </div>
                 </div>
@@ -79,9 +87,5 @@ defineProps({
 defineEmits(['update:category', 'update:search', 'add-to-cart']);
 
 const formatCurrency = (val) => new Intl.NumberFormat('vi-VN').format(val);
-const getImageUrl = (url) => {
-  if (!url) return '/author.avif';
-  if (url.startsWith('http')) return url;
-  return `/author.avif`;
-};
+const getImageUrl = (url) => url || '/author.avif';
 </script>

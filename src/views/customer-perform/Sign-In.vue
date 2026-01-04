@@ -1,43 +1,31 @@
-<script setup>
-import { ref } from 'vue';
-import { Eye, EyeOff, ArrowRight, CheckCircle, ShieldCheck, Lock, Mail, Zap, TrendingUp } from 'lucide-vue-next';
-
-const email = ref('');
-const password = ref('');
-const showPassword = ref(false);
-const rememberMe = ref(false);
-
-const toggleShowPassword = () => showPassword.value = !showPassword.value;
-</script>
-
 <template>
   <div class="relative h-screen w-full font-sans text-black overflow-hidden bg-[#FDFBF7] selection:bg-[#00C16A] selection:text-white">
     <div class="pointer-events-none absolute inset-0 z-50 h-full w-full opacity-[0.04]" style="background-image: url('https://www.transparenttextures.com/patterns/noise-lines.png');"></div>
 
     <div class="flex h-full w-full flex-wrap">
       
-      <div class="relative flex h-full w-full flex-col justify-center overflow-y-auto bg-[#FDFBF7] p-6 lg:w-5/12 lg:p-12 xl:w-4/12 scrollbar-hide z-10">
+      <main class="relative flex h-full w-full flex-col justify-center overflow-y-auto bg-[#FDFBF7] p-6 lg:w-5/12 lg:p-12 xl:w-4/12 scrollbar-hide z-10">
 
         <div class="mx-auto w-full max-w-sm relative">
           
-          <div class="mb-8">
+          <header class="mb-8">
             <div class="flex items-center gap-2 mb-4">
-                <Zap class="h-8 w-8 fill-black" />
+                <Zap class="h-8 w-8 fill-black" aria-hidden="true" />
                 <span class="font-archivo text-2xl tracking-tighter">Dangkhoa<span class="text-[#00C16A]">.Admin</span></span>
             </div>
             <h1 class="font-archivo text-4xl font-black uppercase leading-[0.9] md:text-5xl">
               Enter <br> The System.
             </h1>
-          </div>
+          </header>
 
-          <form class="space-y-5">
-            
+          <form class="space-y-5" @submit.prevent>
             <div class="space-y-1">
-              <label class="font-mono text-xs font-black uppercase flex items-center gap-1">
-                <Mail class="h-3 w-3" /> Email truy cập
+              <label for="admin-email" class="font-mono text-xs font-black uppercase flex items-center gap-1">
+                <Mail class="h-3 w-3" aria-hidden="true" /> Email truy cập
               </label>
               <div class="group relative">
                   <input 
+                    id="admin-email"
                     v-model="email" type="email" placeholder="admin@dangkhoa.com" 
                     class="peer w-full border-2 border-black bg-white px-4 py-3 font-bold placeholder-gray-400 shadow-[4px_4px_0px_0px_#ccc] outline-none transition-all focus:bg-[#FEFCE8] focus:shadow-[4px_4px_0px_0px_#000] focus:translate-x-[-2px] focus:translate-y-[-2px]"
                   />
@@ -47,27 +35,33 @@ const toggleShowPassword = () => showPassword.value = !showPassword.value;
 
             <div class="space-y-1">
               <div class="flex justify-between font-mono text-xs font-black uppercase">
-                <label class="flex items-center gap-1"><Lock class="h-3 w-3" /> Mật khẩu</label>
-                <a href="/quen-mat-khau" class="text-gray-500 hover:text-[#00C16A] hover:underline decoration-2">Quên password?</a>
+                <label for="admin-password" class="flex items-center gap-1"><Lock class="h-3 w-3" aria-hidden="true" /> Mật khẩu</label>
+                <a href="/quen-mat-khau" class="text-gray-600 hover:text-[#00C16A] hover:underline decoration-2">Quên password?</a>
               </div>
               <div class="relative group">
                 <input 
+                  id="admin-password"
                   v-model="password" :type="showPassword ? 'text' : 'password'" placeholder="••••••••" 
                   class="peer w-full border-2 border-black bg-white px-4 py-3 font-bold placeholder-gray-400 shadow-[4px_4px_0px_0px_#ccc] outline-none transition-all focus:bg-[#FEFCE8] focus:shadow-[4px_4px_0px_0px_#000] focus:translate-x-[-2px] focus:translate-y-[-2px]"
                 />
-                 <button type="button" @click="toggleShowPassword" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black">
+                <button 
+                  type="button" 
+                  @click="toggleShowPassword" 
+                  :aria-label="showPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black p-2"
+                >
                   <component :is="showPassword ? EyeOff : Eye" class="h-5 w-5" />
                 </button>
                 <div class="absolute bottom-0 right-0 h-0 w-0 border-b-[10px] border-r-[10px] border-transparent border-r-gray-300 peer-focus:border-r-[#00C16A] transition-all"></div>
               </div>
             </div>
 
-            <div class="flex items-center gap-3 pt-2 bg-white border-2 border-black p-2 shadow-sm">
+            <div class="flex items-center gap-3 pt-2 bg-white border-2 border-black p-3 shadow-sm">
               <input type="checkbox" id="remember" v-model="rememberMe" class="h-5 w-5 border-2 border-black accent-[#00C16A] cursor-pointer" />
               <label for="remember" class="text-sm font-bold cursor-pointer select-none font-mono">Giữ đăng nhập trong 30 ngày</label>
             </div>
 
-            <button class="group relative w-full overflow-hidden border-2 border-black bg-black py-4 text-lg font-black uppercase text-white shadow-[6px_6px_0px_0px_#888] transition-all hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_#000] active:translate-y-1 active:shadow-none">
+            <button type="submit" class="group relative w-full overflow-hidden border-2 border-black bg-black py-4 text-lg font-black uppercase text-white shadow-[6px_6px_0px_0px_#888] transition-all hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_#000] active:translate-y-1 active:shadow-none">
               <span class="relative z-10 flex items-center justify-center gap-2 transition-all group-hover:gap-4">
                 KÍCH HOẠT PHIÊN <ArrowRight class="h-5 w-5" />
               </span>
@@ -75,31 +69,32 @@ const toggleShowPassword = () => showPassword.value = !showPassword.value;
             </button>
           </form>
 
-           <div class="my-4 flex items-center gap-3 text-xs font-mono font-bold text-black uppercase">
+          <div class="my-4 flex items-center gap-3 text-xs font-mono font-bold text-black uppercase">
             <div class="h-0.5 flex-1 bg-black"></div> HOẶC TIẾP TỤC VỚI <div class="h-0.5 flex-1 bg-black"></div>
           </div>
 
           <div class="grid grid-cols-2 gap-4">
-            <button class="flex justify-center border-2 border-black bg-white py-3 shadow-[4px_4px_0px_0px_#ccc] hover:bg-gray-50 hover:shadow-[4px_4px_0px_0px_#000] hover:-translate-y-1 transition-all active:translate-y-0 active:shadow-none">
-               <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="h-6 w-6 grayscale hover:grayscale-0 transition-all" />
+            <button aria-label="Đăng nhập bằng Google" class="flex justify-center border-2 border-black bg-white p-4 shadow-[4px_4px_0px_0px_#ccc] hover:bg-gray-50 hover:shadow-[4px_4px_0px_0px_#000] hover:-translate-y-1 transition-all active:translate-y-0 active:shadow-none">
+                <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google Logo" class="h-6 w-6 grayscale hover:grayscale-0 transition-all" />
             </button>
-            <button class="flex justify-center border-2 border-black bg-white py-3 shadow-[4px_4px_0px_0px_#ccc] hover:bg-gray-50 hover:shadow-[4px_4px_0px_0px_#000] hover:-translate-y-1 transition-all active:translate-y-0 active:shadow-none">
-               <img src="https://www.svgrepo.com/show/512317/github-142.svg" class="h-6 w-6" />
+            <button aria-label="Đăng nhập bằng Github" class="flex justify-center border-2 border-black bg-white p-4 shadow-[4px_4px_0px_0px_#ccc] hover:bg-gray-50 hover:shadow-[4px_4px_0px_0px_#000] hover:-translate-y-1 transition-all active:translate-y-0 active:shadow-none">
+                <img src="https://www.svgrepo.com/show/512317/github-142.svg" alt="Github Logo" class="h-6 w-6" />
             </button>
           </div>
-          <p class="mt-6 text-center font-mono text-xs font-bold text-gray-500">
+
+          <p class="mt-6 text-center font-mono text-xs font-bold text-gray-600">
             Chưa có tài khoản?
-            <a href="/dang-ky" class="bg-black text-white px-1 py-0.5 hover:bg-[#A78BFA] hover:text-black transition-colors">Đăng ký</a>
+            <a href="/dang-ky" class="bg-black text-white px-2 py-1 hover:bg-[#A78BFA] hover:text-black transition-colors ml-1">Đăng ký</a>
           </p>
         </div>
-      </div>
+      </main>
 
-      <div class="relative hidden h-full flex-col justify-between border-l-[8px] border-black bg-[#00C16A] p-8 overflow-hidden lg:flex lg:w-7/12 xl:w-8/12">
+      <section aria-hidden="true" class="relative hidden h-full flex-col justify-between border-l-[8px] border-black bg-[#00C16A] p-8 overflow-hidden lg:flex lg:w-7/12 xl:w-8/12">
         
         <div class="pointer-events-none absolute inset-0 overflow-hidden">
             <div class="absolute top-20 left-20 h-20 w-20 animate-float-slow rounded-full border-4 border-black bg-[#FFD700] opacity-80"></div>
-             <div class="absolute bottom-40 right-20 h-16 w-16 animate-float-reverse animate-spin-slow border-4 border-black bg-[#F472B6]"></div>
-             <div class="absolute inset-0 opacity-20" style="background-image: linear-gradient(rgba(0,0,0,0.5) 2px, transparent 2px), linear-gradient(90deg, rgba(0,0,0,0.5) 2px, transparent 2px); background-size: 50px 50px;"></div>
+            <div class="absolute bottom-40 right-20 h-16 w-16 animate-float-reverse animate-spin-slow border-4 border-black bg-[#F472B6]"></div>
+            <div class="absolute inset-0 opacity-20" style="background-image: linear-gradient(rgba(0,0,0,0.5) 2px, transparent 2px), linear-gradient(90deg, rgba(0,0,0,0.5) 2px, transparent 2px); background-size: 50px 50px;"></div>
         </div>
         
         <div class="z-10 flex justify-between items-center">
@@ -114,14 +109,14 @@ const toggleShowPassword = () => showPassword.value = !showPassword.value;
         </div>
 
         <div class="z-10 flex flex-col items-center justify-center text-center">
-             
              <div class="relative mb-10 hover:scale-105 transition-transform duration-300 cursor-pointer">
                  <div class="absolute top-4 left-4 h-full w-full rotate-6 rounded-xl border-4 border-black bg-[#A78BFA] shadow-[4px_4px_0px_0px_#000]"></div>
                  <div class="absolute top-2 left-2 h-full w-full -rotate-3 rounded-xl border-4 border-black bg-[#FFD700] shadow-[4px_4px_0px_0px_#000]"></div>
+                 
                  <div class="relative w-72 -rotate-6 rounded-xl border-4 border-black bg-white p-5 shadow-[8px_8px_0px_0px_#000] transition-transform hover:rotate-0">
                     <div class="flex items-center justify-between border-b-2 border-black pb-3 mb-3">
-                        <span class="font-mono text-sm font-bold flex items-center gap-2"><TrendingUp class="h-5 w-5"/> Doanh thu</span>
-                        <div class="badge bg-green-100 text-green-800 border-2 border-green-800 text-xs font-black px-2 py-0.5 rounded-full">LIVE</div>
+                        <span class="font-mono text-sm font-bold flex items-center gap-2 text-black"><TrendingUp class="h-5 w-5"/> Doanh thu</span>
+                        <div class="bg-green-100 text-green-800 border-2 border-green-800 text-[10px] font-black px-2 py-0.5 rounded-full">LIVE</div>
                     </div>
                     <div class="text-4xl font-archivo font-black text-black">12.5M <span class="text-lg">₫</span></div>
                     <div class="mt-3 h-3 w-full rounded-full border-2 border-black bg-gray-100 overflow-hidden">
@@ -142,14 +137,28 @@ const toggleShowPassword = () => showPassword.value = !showPassword.value;
             </div>
             <div>© 2026 Dangkhoa Inc.</div>
         </div>
-      </div>
+      </section>
 
     </div>
   </div>
 </template>
 
+<script setup>
+import { ref } from 'vue';
+import { 
+  Eye, EyeOff, ArrowRight, ShieldCheck, Lock, 
+  Mail, Zap, TrendingUp 
+} from 'lucide-vue-next';
+
+const email = ref('');
+const password = ref('');
+const showPassword = ref(false);
+const rememberMe = ref(false);
+
+const toggleShowPassword = () => showPassword.value = !showPassword.value;
+</script>
+
 <style scoped>
-/* Import font: Manrope (cho text thường), Archivo Black (cho tiêu đề), JetBrains Mono (cho nhãn kỹ thuật) */
 @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;700;800&family=Manrope:wght@500;700;800&display=swap');
 
 .font-sans { font-family: 'Manrope', sans-serif; }
@@ -159,7 +168,6 @@ const toggleShowPassword = () => showPassword.value = !showPassword.value;
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
-/* Animations cho hình nền */
 @keyframes float {
     0%, 100% { transform: translateY(0px) rotate(0deg); }
     50% { transform: translateY(-20px) rotate(5deg); }
@@ -168,12 +176,16 @@ const toggleShowPassword = () => showPassword.value = !showPassword.value;
     0%, 100% { transform: translateY(0px) rotate(0deg); }
     50% { transform: translateY(20px) rotate(-5deg); }
 }
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
 .animate-float-slow { animation: float 6s ease-in-out infinite; }
 .animate-float-reverse { animation: float-reverse 7s ease-in-out infinite; }
 .animate-spin-slow { animation: spin 12s linear infinite; }
 
-/* Hiệu ứng cho nút chính khi hover */
 .group:hover .group-hover\:gap-4 {
-    gap: 1rem; /* Tăng khoảng cách giữa chữ và mũi tên */
+    gap: 1rem;
 }
 </style>

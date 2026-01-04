@@ -1,66 +1,39 @@
-<script setup>
-import { ref } from 'vue';
-import { Mail, ArrowRight, ArrowLeft, Key, LifeBuoy, CheckCircle, AlertTriangle } from 'lucide-vue-next';
-
-// --- STATE ---
-const email = ref('');
-const isLoading = ref(false);
-const step = ref(1); // 1: Form, 2: Success
-
-// --- METHODS ---
-const handleReset = () => {
-  if (!email.value) return;
-  
-  isLoading.value = true;
-  
-  // Giả lập gửi email (Delay 1.5s)
-  setTimeout(() => {
-    isLoading.value = false;
-    step.value = 2; // Chuyển sang màn hình thành công
-  }, 1500);
-};
-
-const resetFlow = () => {
-    step.value = 1;
-    email.value = '';
-}
-</script>
-
 <template>
   <div class="relative h-screen w-full font-sans text-black overflow-hidden bg-[#FDFBF7] selection:bg-[#FF9F1C] selection:text-black">
     
-    <div class="pointer-events-none absolute inset-0 z-50 h-full w-full opacity-[0.04]" style="background-image: url('https://www.transparenttextures.com/patterns/noise-lines.png');"></div>
+    <div class="pointer-events-none absolute inset-0 z-50 h-full w-full opacity-[0.04]" style="background-image: url('https://www.transparenttextures.com/patterns/noise-lines.png');" aria-hidden="true"></div>
 
     <div class="flex h-full w-full flex-wrap">
       
-      <div class="relative flex h-full w-full flex-col justify-center overflow-y-auto bg-[#FDFBF7] p-6 lg:w-5/12 lg:p-12 xl:w-4/12 scrollbar-hide z-10">
+      <main class="relative flex h-full w-full flex-col justify-center overflow-y-auto bg-[#FDFBF7] p-6 lg:w-5/12 lg:p-12 xl:w-4/12 scrollbar-hide z-10">
         
-        <a href="/dang-nhap" class="absolute top-6 left-6 flex items-center gap-2 font-mono text-xs font-bold uppercase hover:underline decoration-2 hover:text-[#FF9F1C]">
-            <ArrowLeft class="h-4 w-4" /> Quay lại đăng nhập
+        <a href="/dang-nhap" class="absolute top-6 left-6 flex items-center gap-2 font-mono text-xs font-bold uppercase hover:underline decoration-2 hover:text-[#FF9F1C] focus:outline-dashed focus:outline-2 focus:outline-offset-4 focus:outline-black">
+            <ArrowLeft class="h-4 w-4" aria-hidden="true" /> Quay lại đăng nhập
         </a>
 
         <div class="mx-auto w-full max-w-sm">
           
           <div v-if="step === 1" class="transition-all duration-500 animate-fade-in-up">
               <div class="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full border-4 border-black bg-[#FF9F1C] shadow-[4px_4px_0px_0px_#000]">
-                  <Key class="h-8 w-8 text-white" />
+                  <Key class="h-8 w-8 text-white" aria-hidden="true" />
               </div>
 
-              <div class="mb-8">
+              <header class="mb-8">
                 <h1 class="font-archivo text-4xl font-black uppercase leading-[0.9] md:text-5xl">
                   Lost <br> Your Key?
                 </h1>
-                <p class="font-mono text-sm font-bold text-gray-500 mt-4 border-l-4 border-black pl-3 py-1 bg-gray-100">
+                <p class="font-mono text-sm font-bold text-gray-600 mt-4 border-l-4 border-black pl-3 py-1 bg-gray-100">
                   Đừng lo. Nhập email để nhận liên kết khôi phục.
                 </p>
-              </div>
+              </header>
 
               <form @submit.prevent="handleReset" class="space-y-6">
                 <div class="space-y-2">
-                  <label class="font-mono text-xs font-black uppercase flex items-center gap-1">
-                    <Mail class="h-3 w-3" /> Email đã đăng ký
+                  <label for="recovery-email" class="font-mono text-xs font-black uppercase flex items-center gap-1">
+                    <Mail class="h-3 w-3" aria-hidden="true" /> Email đã đăng ký
                   </label>
                   <input 
+                    id="recovery-email"
                     v-model="email" type="email" placeholder="help@dangkhoa.com" required
                     class="w-full border-2 border-black bg-white px-4 py-4 font-bold placeholder-gray-400 shadow-[4px_4px_0px_0px_#ccc] outline-none transition-all focus:bg-[#FFF4E6] focus:shadow-[4px_4px_0px_0px_#000] focus:translate-x-[-2px] focus:translate-y-[-2px]"
                   />
@@ -69,34 +42,34 @@ const resetFlow = () => {
                 <button 
                     type="submit"
                     :disabled="isLoading"
-                    class="group relative w-full overflow-hidden border-2 border-black bg-black py-4 text-lg font-black uppercase text-white shadow-[6px_6px_0px_0px_#888] transition-all hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_#000] active:translate-y-1 active:shadow-none disabled:opacity-70"
+                    class="group relative w-full overflow-hidden border-2 border-black bg-black py-4 text-lg font-black uppercase text-white shadow-[6px_6px_0px_0px_#888] transition-all hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_#000] active:translate-y-1 active:shadow-none disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   <span v-if="!isLoading" class="relative z-10 flex items-center justify-center gap-2">
-                    GỬI LINK CỨU HỘ <LifeBuoy class="h-5 w-5" />
+                    GỬI LINK CỨU HỘ <LifeBuoy class="h-5 w-5" aria-hidden="true" />
                   </span>
                   <span v-else class="relative z-10 flex items-center justify-center gap-2">
                     ĐANG KẾT NỐI...
                   </span>
-                  <div class="absolute inset-0 h-full w-full translate-y-full bg-[#FF9F1C] transition-transform duration-300 group-hover:translate-y-0"></div>
+                  <div class="absolute inset-0 h-full w-full translate-y-full bg-[#FF9F1C] transition-transform duration-300 group-hover:translate-y-0" aria-hidden="true"></div>
                 </button>
               </form>
           </div>
 
           <div v-else class="text-center animate-fade-in-up">
               <div class="mb-6 mx-auto inline-flex h-20 w-20 items-center justify-center rounded-full border-4 border-black bg-[#00C16A] shadow-[4px_4px_0px_0px_#000]">
-                  <CheckCircle class="h-10 w-10 text-white" />
+                  <CheckCircle class="h-10 w-10 text-white" aria-hidden="true" />
               </div>
               
               <h2 class="font-archivo text-3xl font-black uppercase mb-4">Đã gửi tín hiệu!</h2>
               
               <div class="bg-white border-2 border-black p-4 shadow-[4px_4px_0px_0px_#ccc] mb-6 text-left">
-                  <p class="font-mono text-sm font-bold text-gray-600 mb-2">
+                  <p class="font-mono text-sm font-bold text-gray-700 mb-2">
                       Chúng tôi đã gửi hướng dẫn đến:
                   </p>
                   <p class="font-bold text-lg text-black break-all">{{ email }}</p>
               </div>
 
-              <p class="text-sm font-bold text-gray-500 mb-8">
+              <p class="text-sm font-bold text-gray-600 mb-8">
                   Vui lòng kiểm tra hộp thư (cả mục Spam) và làm theo hướng dẫn để lấy lại quyền truy cập.
               </p>
 
@@ -104,16 +77,16 @@ const resetFlow = () => {
                   <button class="w-full border-2 border-black bg-black text-white py-3 font-black uppercase hover:bg-[#FF9F1C] hover:text-black transition-colors shadow-[4px_4px_0px_0px_#000]">
                       Mở Gmail ngay
                   </button>
-                  <button @click="resetFlow" class="w-full py-3 font-bold text-gray-500 hover:text-black underline decoration-2">
+                  <button @click="resetFlow" class="w-full py-3 font-bold text-gray-600 hover:text-black underline decoration-2">
                       Gửi lại bằng email khác
                   </button>
               </div>
           </div>
 
         </div>
-      </div>
+      </main>
 
-      <div class="relative hidden h-full flex-col justify-between border-l-[8px] border-black bg-[#FF9F1C] p-0 overflow-hidden lg:flex lg:w-7/12 xl:w-8/12">
+      <section aria-hidden="true" class="relative hidden h-full flex-col justify-between border-l-[8px] border-black bg-[#FF9F1C] p-0 overflow-hidden lg:flex lg:w-7/12 xl:w-8/12">
         
         <div class="absolute top-0 left-0 w-full h-12 bg-yellow-300 border-b-4 border-black flex items-center overflow-hidden z-20">
              <div class="flex animate-marquee whitespace-nowrap">
@@ -148,11 +121,39 @@ const resetFlow = () => {
             <span>SYS_STATUS: RECOVERY_MODE</span>
             <span>SECURE_ID: #99281</span>
         </div>
-      </div>
+      </section>
 
     </div>
   </div>
 </template>
+
+<script setup>
+import { ref } from 'vue';
+import { Mail, ArrowRight, ArrowLeft, Key, LifeBuoy, CheckCircle, AlertTriangle } from 'lucide-vue-next';
+
+// --- STATE ---
+const email = ref('');
+const isLoading = ref(false);
+const step = ref(1); // 1: Form, 2: Success
+
+// --- METHODS ---
+const handleReset = () => {
+  if (!email.value) return;
+  
+  isLoading.value = true;
+  
+  // Giả lập gửi email (Delay 1.5s)
+  setTimeout(() => {
+    isLoading.value = false;
+    step.value = 2; // Chuyển sang màn hình thành công
+  }, 1500);
+};
+
+const resetFlow = () => {
+    step.value = 1;
+    email.value = '';
+}
+</script>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;700;800&family=Manrope:wght@500;700;800&display=swap');

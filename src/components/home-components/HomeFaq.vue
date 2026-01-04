@@ -27,7 +27,7 @@
               :class="activeIndex === index ? 'bg-gray-50' : 'bg-white hover:bg-gray-50'"
             >
               <div class="flex items-center gap-6 pr-4">
-                <span class="text-3xl font-black text-gray-200 select-none min-w-[3rem]">
+                <span class="text-3xl font-black text-black select-none min-w-[3rem]">
                   {{String(index + 1).padStart(2, '0')}}
                 </span>
 

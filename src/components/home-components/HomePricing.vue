@@ -58,7 +58,7 @@
                     <span class="text-5xl font-black tracking-tight text-black">
                       {{ plan.price }}
                     </span>
-                    <span class="text-lg text-gray-500 font-bold uppercase">
+                    <span class="text-lg text-gray-600 font-bold uppercase">
                       {{ plan.period || '/ tháng' }}
                     </span>
                   </div>

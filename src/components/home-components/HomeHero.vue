@@ -65,7 +65,7 @@
 
             <div class="flex-1 space-y-6">
               <div class="flex justify-between items-center">
-                <div class="h-14 w-56 bg-white border-4 border-black rounded-lg flex items-center px-4 font-bold text-gray-400 animate-pulse">Tìm kiếm...</div>
+                <div class="h-14 w-56 bg-white border-4 border-black rounded-lg flex items-center px-4 font-bold text-gray-400 animate-pulse cursor-text">Tìm kiếm...</div>
                 <div class="h-14 w-14 rounded-full border-4 border-black bg-[#A78BFA] hover:scale-110 transition-transform shadow-[3px_3px_0px_0px_#000] cursor-pointer overflow-hidden">
                   <img src="https://i.pravatar.cc/100?img=3" alt="Avatar" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all">
                 </div>

@@ -9,9 +9,6 @@
         >
           <span class="text-xl font-bold">D</span>
         </div>
-        <span class="text-2xl font-black tracking-tighter"
-          >Dangkhoa<span class="text-[#00C16A]">2004</span></span
-        >
       </div>
 
       <div class="hidden gap-8 md:flex">

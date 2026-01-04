@@ -11,13 +11,7 @@
         <i class="fa-solid fa-bars"></i>
       </button>
 
-      <div class="flex items-center gap-2">
-        <div
-          class="bg-neo-green border-2 border-black p-2 h-8 flex items-center justify-center text-white font-bold rounded select-none"
-        >
-          dangkhoa2004
-        </div>
-      </div>
+      
     </div>
 
     <div class="hidden md:flex gap-8 font-semibold text-sm">
@@ -43,7 +37,7 @@
         @click="isUserMenuOpen = true"
         class="w-10 h-10 rounded-full border-2 border-black overflow-hidden bg-gray-200 cursor-pointer hover:opacity-80 transition-opacity"
       >
-        <img src="/author.avif" alt="User" class="w-full h-full object-cover" />
+        <img src="/images/author.avif" alt="User" class="w-full h-full object-cover" />
       </button>
     </div>
   </nav>
@@ -78,7 +72,7 @@
           class="w-12 h-12 rounded-full border-2 border-black overflow-hidden"
         >
           <img
-            src="/author.avif"
+            src="/images/author.avif"
             alt="User"
             class="w-full h-full object-cover"
           />
